@@ -1,5 +1,6 @@
 const { userServices } = require("../services");
 
+// 1. Crea un usuario en la DB
 const postUser = async (req, res) => {
   const { name, email, password, userType } = req.body;
   try {
