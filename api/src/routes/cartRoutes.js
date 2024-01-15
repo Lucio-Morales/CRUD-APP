@@ -5,6 +5,7 @@ const cartRoutes = Router();
 
 cartRoutes
   .get("/", cartControllers.getUserCart)
-  .get("/products/:cartId", cartControllers.getProductsCart);
+  .get("/products/:cartId", cartControllers.getProductsCart)
+  .get("/add", cartControllers.addProductToCart);
 
 module.exports = cartRoutes;

@@ -1,6 +1,6 @@
 const { Buyer } = require("../db");
 
-// 1. Crea un usuario en la DB
+// 1. Crea un usuario en la DB, genera y asocia un Cart
 const createNewBuyer = async (name, email, password) => {
   const newBuyer = await Buyer.create({ name, email, password });
   if (newBuyer.id) {

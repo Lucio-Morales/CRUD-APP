@@ -1,10 +1,24 @@
 const { cartServices } = require("../services");
 
-// 1. Recibe userId y busca su carrito de compras
+// 1. Recibe buyerId y busca su carrito de compras
 const getUserCart = async (req, res) => {
-  const { userId } = req.query;
+  const { buyerId } = req.query;
   try {
-    const response = await cartServices.findUserCart(userId);
+    const response = await cartServices.findBuyerCart(buyerId);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const addProductToCart = async (req, res) => {
+  const { buyerId, productId, quantity } = req.query;
+  try {
+    const response = await cartServices.addProduct(
+      buyerId,
+      productId,
+      quantity
+    );
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -22,4 +36,4 @@ const getProductsCart = async (req, res) => {
   }
 };
 
-module.exports = { getProductsCart, getUserCart };
+module.exports = { getProductsCart, getUserCart, addProductToCart };

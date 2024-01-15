@@ -37,16 +37,20 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 const { Buyer, Seller, Cart, Store, Product } = sequelize.models;
 
-Buyer.hasOne(Cart);
-Cart.belongsTo(Buyer);
+// Relacion de 1 a 1
+Buyer.hasOne(Cart); //Un Buyer puede tener un Cart
+Cart.belongsTo(Buyer); //Un Cart pertenece a un Buyer
 
-Store.belongsTo(Seller);
-Seller.hasMany(Store);
+// Relacion de 1 a muchos
+Store.belongsTo(Seller); // Una Store pertenece a un Seller
+Seller.hasMany(Store); // Un Seller puede tener muchas Stores
 
-Store.hasMany(Product);
-Product.belongsTo(Store);
+// Relacion de 1 a muchos
+Store.hasMany(Product); // Una store puede tener muchos Products
+Product.belongsTo(Store); // Un producto pertenece a una tienda
 
-Product.belongsToMany(Cart, { through: "CartProduct" });
-Cart.belongsToMany(Product, { through: "CartProduct" });
+// Relacion de muchos a muchos
+Product.belongsToMany(Cart, { through: "CartProduct" }); // Un Product puede estar en multiples Carts
+Cart.belongsToMany(Product, { through: "CartProduct" }); // Un Cart puede tener multiples Products
 
 module.exports = { conn: sequelize, ...sequelize.models };

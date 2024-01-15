@@ -1,6 +1,6 @@
 const { buyerServices } = require("../services");
 
-// 1. Crea un usuario en la DB
+// 1. Crea un Buyer en la DB
 const postBuyer = async (req, res) => {
   const { name, email, password } = req.body;
   try {
