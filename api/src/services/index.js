@@ -1,5 +1,5 @@
 module.exports = {
-  userServices: require("./userServices"),
+  buyerServices: require("./buyerServices"),
   sellerServices: require("./sellerServices"),
   cartServices: require("./cartServices"),
   productServices: require("./productServices"),

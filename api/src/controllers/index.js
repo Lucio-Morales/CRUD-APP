@@ -1,7 +1,7 @@
 module.exports = {
   productControllers: require("./productControllers"),
   cartControllers: require("./cartControllers"),
-  userControllers: require("./userControllers"),
+  buyerControllers: require("./buyerControllers"),
   sellerControllers: require("./sellerControllers"),
   storeControllers: require("./storeControllers"),
 };
