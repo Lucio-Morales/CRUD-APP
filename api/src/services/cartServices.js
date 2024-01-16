@@ -34,4 +34,38 @@ const addProduct = async (buyerId, productId, quantity = 1) => {
   return cart;
 };
 
-module.exports = { findBuyerCart, findAllProducts, addProduct };
+// const saveProductInCart = async (productId, buyerId, quantity) => {
+//   try {
+//     // Iniciar transacción de base de datos
+//     await sequelize.transaction(async (t) => {
+//       // Obtener el producto y verificar el stock
+//       const product = await Product.findByPk(productId);
+//       if (!product || product.stock < quantity) {
+//         return { error: "Stock insuficiente" };
+//       }
+
+//       // Actualizar el carrito del comprador
+//       const cart = await Cart.findOne({ where: { BuyerId: buyerId } });
+//       // Asumiendo que tienes un modelo CartItem asociado a Cart
+//       await cart.createCartItem(
+//         { ProductId: productId, quantity: quantity },
+//         { transaction: t }
+//       );
+
+//       // Actualizar el stock del producto
+//       await product.decrement("stock", { by: quantity, transaction: t });
+//     });
+
+//     return { message: "Producto agregado al carrito exitosamente" };
+//   } catch (error) {
+//     console.error(error);
+//     // return { error: "Error en el servidor" }
+//   }
+// };
+
+module.exports = {
+  findBuyerCart,
+  findAllProducts,
+  addProduct,
+  // saveProductInCart,
+};

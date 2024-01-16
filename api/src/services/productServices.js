@@ -10,4 +10,10 @@ const createProduct = async (name, stock, storeId) => {
   }
 };
 
-module.exports = { createProduct };
+const findInStore = async (storeId) => {
+  const allProducts = await Product.findAll({ where: { StoreId: storeId } });
+  if (!allProducts.length) return { msg: "Esta store no tiene productos aún" };
+  if (allProducts) return allProducts;
+};
+
+module.exports = { createProduct, findInStore };

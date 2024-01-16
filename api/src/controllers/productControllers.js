@@ -11,4 +11,14 @@ const postProduct = async (req, res) => {
   }
 };
 
-module.exports = { postProduct };
+const getAllInStore = async (req, res) => {
+  const { storeId } = req.params;
+  try {
+    const response = await productServices.findInStore(storeId);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { postProduct, getAllInStore };
