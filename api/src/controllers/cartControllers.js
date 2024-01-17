@@ -11,6 +11,18 @@ const getUserCart = async (req, res) => {
   }
 };
 
+// 2. Recibe un cartId y busca todos sus productos
+const getProductsCart = async (req, res) => {
+  const { cartId } = req.params;
+  try {
+    const response = await cartServices.findAllProducts(cartId);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// 3. Debe añadir productos al carrito de un buyer
 const addProductToCart = async (req, res) => {
   const { buyerId, productId, quantity } = req.query;
   try {
@@ -25,15 +37,22 @@ const addProductToCart = async (req, res) => {
   }
 };
 
-// 2. Recibe un cartId y busca todos sus productos
-const getProductsCart = async (req, res) => {
-  const { cartId } = req.params;
+const removeProduct = async (req, res) => {
+  const { productId, buyerId } = req.query;
   try {
-    const response = await cartServices.findAllProducts(cartId);
+    const response = await cartServices.removeProductFromCart(
+      productId,
+      buyerId
+    );
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-module.exports = { getProductsCart, getUserCart, addProductToCart };
+module.exports = {
+  getProductsCart,
+  getUserCart,
+  addProductToCart,
+  removeProduct,
+};

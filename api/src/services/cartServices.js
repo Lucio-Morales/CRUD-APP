@@ -1,5 +1,4 @@
-const { Cart } = require("../db");
-const { Product } = require("../db");
+const { Cart, Product } = require("../db");
 
 // 1. Recibe el id de un usuario y busca su carrito de compras
 const findBuyerCart = async (buyerId) => {
@@ -14,58 +13,33 @@ const findAllProducts = async (cartId) => {
   return cart;
 };
 
-const addProduct = async (buyerId, productId, quantity = 1) => {
-  const cart = await Cart.findOne({
-    where: {
-      BuyerId: buyerId,
-    },
-    include: Product,
-  });
-  const product = await Product.findByPk(productId);
-
-  const existingCartItem = cart.Products.find((item) => item.id === productId);
-
-  if (existingCartItem) {
-    existingCartItem.CartProduct.quantity += quantity;
-    await existingCartItem.CartProduct.save();
-  } else {
-    await cart.addProduct(product, { through: { quantity } });
+const addProduct = async (buyerId, productId, quantity) => {
+  const product = await Product.findByPk(productId); // Busco el Product que el Buyer quiere agregar a su carrito
+  if (!product || product.dataValues.stock < quantity) {
+    return { msg: "Stock insuficiente." };
   }
-  return cart;
+  console.log(product.dataValues);
+  const buyerCart = await findBuyerCart(buyerId); // Busco el Cart del Buyer
+  console.log(buyerCart.dataValues);
+  await buyerCart.addProduct(product, { through: { quantity: quantity } });
+  // const productsInCart = await buyerCart.getProducts();
+  // console.log(productsInCart);
 };
 
-// const saveProductInCart = async (productId, buyerId, quantity) => {
-//   try {
-//     // Iniciar transacción de base de datos
-//     await sequelize.transaction(async (t) => {
-//       // Obtener el producto y verificar el stock
-//       const product = await Product.findByPk(productId);
-//       if (!product || product.stock < quantity) {
-//         return { error: "Stock insuficiente" };
-//       }
+const removeProductFromCart = async (productId, buyerId) => {
+  const buyerCart = await findBuyerCart(buyerId);
+  console.log(buyerCart.dataValues);
+  // Verificar si el producto está en el carrito
+  const productInCart = await Product.findByPk(productId);
+  console.log(productInCart.dataValues);
 
-//       // Actualizar el carrito del comprador
-//       const cart = await Cart.findOne({ where: { BuyerId: buyerId } });
-//       // Asumiendo que tienes un modelo CartItem asociado a Cart
-//       await cart.createCartItem(
-//         { ProductId: productId, quantity: quantity },
-//         { transaction: t }
-//       );
-
-//       // Actualizar el stock del producto
-//       await product.decrement("stock", { by: quantity, transaction: t });
-//     });
-
-//     return { message: "Producto agregado al carrito exitosamente" };
-//   } catch (error) {
-//     console.error(error);
-//     // return { error: "Error en el servidor" }
-//   }
-// };
+  await buyerCart.removeProduct(productInCart);
+  return { msg: "Producto removido del carrito con exito" };
+};
 
 module.exports = {
   findBuyerCart,
   findAllProducts,
   addProduct,
-  // saveProductInCart,
+  removeProductFromCart,
 };
