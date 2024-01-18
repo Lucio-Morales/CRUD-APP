@@ -2,17 +2,17 @@
 // 2. Debera tener una NavBar.
 // 3. Debera tener una seccion donde se muestran todos los productos.
 
-import NavBar from "../../components/navBar/NavBar";
+// import NavBar from "../../components/navBar/NavBar";
 
-const PublicDashboard = () => {
+const Home = () => {
   return (
     <>
       <div>
-        <NavBar />
-        <h1>PublicDashboard</h1>
+        {/* <NavBar /> */}
+        <h1>WELCOME TO HOME COMPONENT</h1>
       </div>
     </>
   );
 };
 
-export default PublicDashboard;
+export default Home;
