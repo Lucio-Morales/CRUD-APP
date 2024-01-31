@@ -5,14 +5,14 @@ import SearchBar from "../searchBar/SearchBar";
 import LoginButton from "../loginButton/LoginButton";
 import LogoutButton from "../logoutButton/LogoutButton";
 import StoresButton from "../storesButton/StoresButton";
+import SellerButtons from "../sellerButtons/SellerButtons";
 
 const NavBar = () => {
   const { isAuthenticated, isLoading } = useAuth0();
   return (
     <>
-      <SearchBar />
       {isAuthenticated ? (
-        <LogoutButton />
+        <SellerButtons />
       ) : isLoading ? (
         <>Loading...</>
       ) : (
